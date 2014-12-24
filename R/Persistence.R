@@ -1,3 +1,6 @@
+#' @include Definition.R
+NULL
+
 #' @title write.excel
 #' @name write.excel
 #' 

@@ -6,8 +6,6 @@
 #' @export 
 #' @rdname Accessors
 #' 
-#' @param x OriginPeriod
-#' @param i numeric index
 `[.OriginPeriod` <- function(x, i){
 #setMethod("[", signature(x="OriginPeriod"), definition=function(x, i){
   op = OriginPeriod(x@StartDate[i], x@EndDate[i], Period = x@Period, Moniker=x@Moniker[i], Type=x@Type)
@@ -21,11 +19,16 @@ setMethod("[", signature(x="OriginPeriod", i="character"), definition=function(x
   op = OriginPeriod(x@StartDate[i], x@EndDate[i], Period = x@Period, Moniker=x@Moniker[i], Type=x@Type)
 })
 
+setGeneric("[<-")
 #' @export
 #' @rdname Accessors
 #' 
+#' @param x OriginPeriod object
 #' @param value OriginPeriod object
-setMethod("[<-", signature(x = "OriginPeriod", value = "OriginPeriod"), definition=function(x, i, value) {
+#' @param i,j Indices
+#' @param ... Additional arguments (ignored)
+setMethod("[<-", signature(x = "OriginPeriod", i="ANY", j="ANY", value = "OriginPeriod")
+          , definition=function(x, i, j, ..., value) {
   if (x@Period != value@Period) {
     msg = "Period length is not equal to object being assigned."
     msg = paste(msg, x@Period, "vs.", value@Period)

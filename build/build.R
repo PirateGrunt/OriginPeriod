@@ -9,3 +9,4 @@ library(OriginPeriod)
 test_dir("./inst/test/")
 
 check_doc()
+devtools::check(args = c('--as-cran'))

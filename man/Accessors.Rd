@@ -13,18 +13,20 @@
 
 \S4method{[}{OriginPeriod,character}(x, i)
 
-\S4method{[}{OriginPeriod,ANY,ANY,OriginPeriod}(x, i) <- value
+\S4method{[}{OriginPeriod,ANY,ANY,OriginPeriod}(x, i, j, ...) <- value
 
 \S4method{$}{OriginPeriod}(x, name)
 
 \S4method{$}{OriginPeriod}(x, name) <- value
 }
 \arguments{
-\item{x}{OriginPeriod}
-
-\item{i}{numeric index}
+\item{x}{OriginPeriod object}
 
 \item{value}{OriginPeriod object}
+
+\item{i,j}{Indices}
+
+\item{...}{Additional arguments (ignored)}
 
 \item{name}{
     A literal character string or a \link{name} (possibly \link{backtick}
