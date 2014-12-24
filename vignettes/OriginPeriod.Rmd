@@ -1,0 +1,12 @@
+---
+title: "OriginPeriod"
+author: "Brian A Fannin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{OriginPeriod}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+An OriginPeriod object will quickly generate vectors of OriginPeriods. 

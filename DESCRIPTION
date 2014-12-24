@@ -1,9 +1,27 @@
 Package: OriginPeriod
 Type: Package
 Title: What the package does (short line)
-Version: 1.0
+Version: 0.1.0
 Date: 2014-10-25
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: GPL-3
+Collate:
+    'Validation.R'
+    'Definition.R'
+    'Accessors.R'
+    'Comparison.R'
+    'Concatenation.R'
+    'Support.R'
+    'Constructors.R'
+    'Conversion.R'
+    'Persistence.R'
+    'Properties.R'
+Imports:
+    lubridate,
+    XLConnect
+Suggests:
+    knitr,
+    mondate
+VignetteBuilder: knitr

@@ -1,10 +1,35 @@
-#**********************************************************************************************
-# 2. Constructors ====
+#' @include Definition.R
+#' @include Support.R
+#' 
+#' @title OriginPeriod
+#' 
+#' @description
+#' Construct an OriginPeriod object 
+#' 
+#' @param StartDate vector of start dates
+#' @param EndDate vector of end dates
+#' @param Period The period between the start and end dates
+#' @param ... Additional parameters
+#' 
+#' @details
+#' An OriginPeriod object may be constructed in a number of ways.
+#' 
+#' 1. Provide start and end dates
+#' 
 setGeneric("OriginPeriod", function(StartDate, EndDate, Period, ...) {
   standardGeneric("OriginPeriod")
 })
 
 #' @export
+#' 
+#' @rdname OriginPeriod
+#' 
+#' @param Moniker Character vector of names for each element
+#' @param Type "Accident year", "Report year", etc.
+#' @param Verbose Display warnings?
+#' @param NumPeriods How many periods?
+#' @param StartMonth Starting month of the period
+#' @param StartDay Starting day of the period
 #' 
 setMethod("OriginPeriod", signature=c(StartDate="ANY", EndDate="ANY", Period="ANY")
           , definition = function(StartDate, EndDate, Period, Moniker, Type, Verbose=FALSE, NumPeriods, StartMonth, StartDay){

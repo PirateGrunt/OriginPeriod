@@ -1,6 +1,3 @@
-#**********************************************************************************************
-# 0. Helper functions ====
-
 MonthsBetween = function(StartDate, EndDate){
   diff = as.double(EndDate - StartDate)
   diff = round(diff / 30.5)

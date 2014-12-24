@@ -1,40 +1,40 @@
-#**********************************************************************************************
-# 1. Class Definition ====
-checkOriginPeriod = function(object)
-{
-  errors = character()
-  
-  if (length(object@StartDate) != length(unique(object@StartDate))) {
-    errors = c(errors, "Start dates must be unique.")
-  }
-  
-  if (length(object@EndDate) != length(unique(object@EndDate))) {
-    errors = c(errors, "End dates must be unique.")
-  }
-  
-  if (length(object@StartDate) != length(object@EndDate)) {
-    errors = c(errors, "Start and end date must have the same length.")
-  }
-  
-  if (any(diff(object@StartDate) <= 0)) {
-    errors = c(errors, "Start dates must be strictly increasing.")
-  }
-  
-  if (any(object@EndDate <= object@StartDate)) {
-    errors = c(errors, "End dates must be strictly greater than start dates.")
-  }
-  
-  if (length(object@Moniker) != length(unique(object@Moniker))) {
-    errors = c(errors, "Monikers must be unique.")
-  }
-  
-  if (length(object@Moniker) != length(object@StartDate)){
-    errors = c(errors, "Moniker and StartDate don't have equal length.")
-  }
-  
-  if (length(errors) == 0) TRUE else errors
-}
-
+#' @include Validation.R
+#' 
+#' @title OriginPeriod-class
+#' 
+#' @description
+#' 
+#' OriginPeriod is an S4 class used to store information about the time 
+#' intervals which produces claims, exposure or some other measure. This is 
+#' a utility class, primarily of interest to actuaries.
+#' 
+#' @details
+#' Several things distinguish an OriginPeriod from other date/time vectors.
+#' 
+#' 1. A starting and ending date are both required.
+#' 2. The time period between the starting and ending date must be constant.
+#' 3. The start and end dates must be monotonically increasing
+#' 4. The user may apply a label to each period
+#' 4. The time periods may not overlap (?)
+#' 
+#' An OriginPeriod may be of any arbitrary length, though years are most 
+#' common. The "type" slot is a character string which indicates the type 
+#' of origin period, such as "Accident", "Occurrence", "Report", "Policy", 
+#' "Lloyds" and so forth. "Accident" and "Occurrence" are synonymous and 
+#' indicate the a claim occurred in a particular period of time. "Report" 
+#' is the interval during which a claim is reported, such as exists under 
+#' a claims-made policy. "Policy" or "Underwriting" periods are ones wherein 
+#' the risk attaches. "Lloyds" refers to a Lloyds year of account. There is 
+#' no restriction on what type may be used for an OriginPeriod, meaning that 
+#' there is no language restriction either. So, "Zeichnungsjahr", 
+#' "Ereignisjahr" and so forth are permitted.
+#' 
+#' 
+#' @name OriginPeriod-class
+#' @rdname OriginPeriod-class
+#' @exportClass OriginPeriod
+#' 
+#' @importClassesFrom lubridate Period
 setClass("OriginPeriod"
          , representation(StartDate = "Date"
                           , EndDate = "Date"

@@ -1,8 +1,24 @@
-#**********************************************************************************************
-# 8. Persistence ====
-
+#' @title write.excel
+#' @name write.excel
+#' 
 #' @export
 #' 
+#' @param object Object to write to Excel
+#' @param file Character string with the name of the file
+#' @param overwrite Overwrite the file if it exists?
+#' @param ... Additional arguments
+#' 
+#' @import XLConnect
+setGeneric("write.excel", function(object, file, overwrite, ...) {
+  standardGeneric("write.excel")
+})
+
+
+#' @export
+#' @rdname write.excel
+#' 
+#' @import XLConnect
+#' @param sheetName Name of sheet where the object will be written
 setMethod("write.excel", signature=c(object = "OriginPeriod", file="character", overwrite="logical")
           , definition=function(object, file, overwrite=FALSE, sheetName){
             
