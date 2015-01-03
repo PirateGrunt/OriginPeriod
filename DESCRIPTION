@@ -18,8 +18,9 @@ Collate:
     'Conversion.R'
     'Persistence.R'
     'Properties.R'
+Depends:
+    lubridate
 Imports:
-    lubridate,
     XLConnect
 Suggests:
     knitr,
