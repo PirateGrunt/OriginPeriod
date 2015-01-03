@@ -42,6 +42,8 @@ setMethod("[<-", signature(x = "OriginPeriod", i="ANY", j="ANY", value = "Origin
 
 #' @export
 #' @rdname Accessors
+#' 
+#' @param name Slot to alter
 setMethod("$", signature(x = "OriginPeriod"), function(x, name) {
   slot(x, name)
 })
@@ -55,23 +57,3 @@ setMethod("$<-", signature(x = "OriginPeriod"), function(x, name, value) {
   }
   x
 })
-
-# #' @export
-# #' @rdname Accessors
-# setMethod("[[", signature(x = "OriginPeriod"), definition=function(x, i, j, ..., exact = TRUE){
-#   op = OriginPeriod(x@StartDate[i], x@EndDate[i], Period = x@Period, Moniker=x@Moniker[i], Type=x@Type)
-# })
-# 
-# #' @export
-# #' @rdname Accessors
-# setMethod("[[<-", signature(x = "OriginPeriod", value = "OriginPeriod"), definition=function(x, i, j, ..., value) {
-#   if (x@Period != value@Period) {
-#     msg = "Period length is not equal to object being assigned."
-#     msg = paste(msg, x@Period, "vs.", value@Period)
-#     stop(msg)
-#   }
-#   x@StartDate[i] = value@StartDate
-#   x@EndDate[i] = value@EndDate
-#   x@Moniker[i] = value@Moniker
-#   x
-# })

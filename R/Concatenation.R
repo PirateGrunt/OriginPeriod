@@ -33,6 +33,7 @@ rbind.OriginPeriod = function(..., deparse.level=1){
 #' @rdname Concatenation
 #' 
 #' @param x OriginPeriod object
+#' @param recursive Not used
 setMethod("c", signature(x="OriginPeriod"), function(x, ...){
   elements = list(...)
   blnOPs = sapply(elements, is.OriginPeriod)

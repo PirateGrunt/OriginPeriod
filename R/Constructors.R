@@ -83,47 +83,6 @@ setMethod("OriginPeriod", signature=c(StartDate="ANY", EndDate="ANY", Period="AN
             StartDate = StartDate[1] + Period * (0:(NumPeriods-1))
             EndDate = StartDate + Period - days(1)
             
-            #             if (missing(Period)) {
-            #               if (missing(EndDate)){
-            #                 # Missing Period and EndDate. We'll construct using the default period.
-            #                 Period = DefaultPeriod()
-            #                 if (Verbose) warning("Period will default to one year.")
-            #               } else {
-            #                 # Period is missing, but we have EndDate. We can infer the period based on the months
-            #                 # between StartDate and EndDate. To do this, we pass in a modified EndDate, which has the 
-            #                 # same year as StartDate
-            #                 adjustedEndDate = EndDate
-            #                 year(adjustedEndDate) = year(StartDate)
-            #                 Period = InferPeriod(StartDate, adjustedEndDate)
-            #               }
-            #             }
-            #             
-            #             if (class(StartDate) == "Date") {
-            #                 if (missing(EndDate)) {
-            #                   if (length(StartDate) == 1 & !missing(NumPeriods)){
-            #                     StartDate = StartDate + Period * (0:(NumPeriods-1))
-            #                   }
-            #                 } else {
-            #                   # StartDate, EndDate and Period are all here. This means one of two things:
-            #                   #     1. The user wants a single element from StartDate and EndDate to signify the first and 
-            #                   #        last dates which have a common Period between them.
-            #                   #     2. Otherwise, it means that the user has passed in a superfluous Period argument.
-            #                   if (length(StartDate) == 1){
-            #                     # Estimate the number of elements between StartDate and EndDate
-            #                     # Very lazy way of working with periods
-            #                     
-            #                     
-            #                     StartDate = StartDate + Period * (0:(periodsBetween-1))
-            #                     
-            #                     if (StartDate[periodsBetween] < EndDate) StartDate[periodsBetween+1] = StartDate[periodsBetween]+Period
-            #                     
-            #                   } else {
-            #                     if (Verbose) warning("Calling standard constructor with StartDate and EndDate vectors. Period will be ignored.")
-            #                     Period = InferPeriod(StartDate, EndDate)
-            #                   }
-            #               } # class(StartPeriod == "Date")
-            #             }
-            
             if (missing(Moniker)) {
               Moniker = DefaultMoniker(StartDate)
               if (Verbose) warning("No Moniker has been specified. Defaulting to a blank Moniker.")
@@ -138,17 +97,4 @@ setMethod("OriginPeriod", signature=c(StartDate="ANY", EndDate="ANY", Period="AN
                      , Moniker = Moniker
                      , Type = Type)
             op
-          })
-
-# setMethod("OriginPeriod", signature=c(StartDate = "Date", EndDate = "Date", Period = "Period")
-#           , function(StartDate, EndDate, Period, Type, Moniker){
-
-# setMethod("OriginPeriod", signature=c(StartDate = "Date", EndDate = "Date", Period = "missing")
-#           , definition=function(StartDate, EndDate, Moniker, Type, Verbose=FALSE){
-
-# setMethod("OriginPeriod", signature=c(StartDate = "Date", EndDate = "missing", Period = "Period")
-#           , definition=function(StartDate, Period, Moniker, Type, Verbose=FALSE, NumPeriods){
-#             
-# setMethod("OriginPeriod", signature=c(StartDate = "integer", EndDate = "missing", Period = "missing")
-#           , definition=function(StartDate, Moniker, Type, ){
-
+})
