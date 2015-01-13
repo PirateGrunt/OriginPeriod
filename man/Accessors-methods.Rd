@@ -5,12 +5,12 @@
 \alias{$,OriginPeriod-method}
 \alias{$<-,OriginPeriod-method}
 \alias{Accessors}
+\alias{[,OriginPeriod,ANY-method}
 \alias{[,OriginPeriod,character-method}
-\alias{[.OriginPeriod}
 \alias{[<-,OriginPeriod,ANY,ANY,OriginPeriod-method}
 \title{Accessors}
 \usage{
-\method{[}{OriginPeriod}(x, i)
+\S4method{[}{OriginPeriod,ANY}(x, i)
 
 \S4method{[}{OriginPeriod,character}(x, i)
 
@@ -23,9 +23,11 @@
 \arguments{
 \item{x}{OriginPeriod object}
 
-\item{i,j}{Indices}
+\item{i}{Which OriginPeriod element}
 
-\item{...}{Additional arguments (ignored)}
+\item{j}{Not used}
+
+\item{...}{Not used}
 
 \item{value}{OriginPeriod object}
 

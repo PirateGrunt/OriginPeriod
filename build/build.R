@@ -2,7 +2,6 @@ library(testthat)
 library(devtools)
 library(roxygen2)
 
-roxygen2::roxygenize(clean=TRUE)
 devtools::document(roclets=c('rd', 'collate', 'namespace'))
 check_doc()
 

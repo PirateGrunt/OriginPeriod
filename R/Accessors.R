@@ -4,15 +4,27 @@
 #' @title Accessors
 #' 
 #' @export 
-#' @rdname Accessors
+#' @rdname Accessors-methods
 #' 
-`[.OriginPeriod` <- function(x, i){
-#setMethod("[", signature(x="OriginPeriod"), definition=function(x, i){
-  op = OriginPeriod(x@StartDate[i], x@EndDate[i], Period = x@Period, Moniker=x@Moniker[i], Type=x@Type)
-}
+#' @aliases [,OriginPeriod,ANY-method
+#' 
+#' @param x OriginPeriod object
+#' @param i Which OriginPeriod element
+#' @param j Not used
+#' @param ... Not used
+#' 
+#`[.OriginPeriod` <- function(x, i){
+setMethod("[", signature(x="OriginPeriod", i="ANY"), definition=function(x, i){
+  op = OriginPeriod(x@StartDate[i], x@EndDate[i]
+                    , Period = x@Period
+                    , Moniker=x@Moniker[i]
+                    , Type=x@Type)
+})
 
 #' @export 
-#' @rdname Accessors
+#' @rdname Accessors-methods
+#' 
+#' @aliases [,OriginPeriod,character-method
 #' 
 setMethod("[", signature(x="OriginPeriod", i="character"), definition=function(x, i){
   i = match(i, x@Moniker)
@@ -21,12 +33,9 @@ setMethod("[", signature(x="OriginPeriod", i="character"), definition=function(x
 
 setGeneric("[<-")
 #' @export
-#' @rdname Accessors
+#' @rdname Accessors-methods
 #' 
-#' @param x OriginPeriod object
 #' @param value OriginPeriod object
-#' @param i,j Indices
-#' @param ... Additional arguments (ignored)
 setMethod("[<-", signature(x = "OriginPeriod", i="ANY", j="ANY", value = "OriginPeriod")
           , definition=function(x, i, j, ..., value) {
   if (x@Period != value@Period) {
@@ -41,7 +50,7 @@ setMethod("[<-", signature(x = "OriginPeriod", i="ANY", j="ANY", value = "Origin
 })
 
 #' @export
-#' @rdname Accessors
+#' @rdname Accessors-methods
 #' 
 #' @param name Slot to alter
 setMethod("$", signature(x = "OriginPeriod"), function(x, name) {
@@ -49,7 +58,7 @@ setMethod("$", signature(x = "OriginPeriod"), function(x, name) {
 })
 
 #' @export
-#' @rdname Accessors
+#' @rdname Accessors-methods
 setMethod("$<-", signature(x = "OriginPeriod"), function(x, name, value) {
   slot(x, name) <- value
   if (!validObject(x)){
