@@ -1,13 +1,13 @@
 MonthsBetween = function(StartDate, EndDate){
   diff = as.double(EndDate - StartDate)
   diff = round(diff / 30.5)
-  as.period(diff, unit="months")
+  lubridate::as.period(diff, unit="months")
 }
 
 MeanMonths = function(Periods){
-  z = month(Periods)
+  z = lubridate::month(Periods)
   z = mean(z)
-  z = as.period(z, unit="months")
+  z = lubridate::as.period(z, unit="months")
 }
 
 InferPeriod = function(StartDate, EndDate){
@@ -22,14 +22,14 @@ PeriodsBetween = function(StartDate, EndDate, Period){
   }
   
   daysBetween = difftime(EndDate, StartDate, units="days") + 1
-  periodsBetween = suppressMessages(daysBetween / (Period / days(1)))
+  periodsBetween = suppressMessages(daysBetween / (Period / lubridate::days(1)))
   periodsBetween = round(as.numeric(periodsBetween))
   
   periodsBetween
 }
 
 DefaultPeriod = function(){
-  years(1)
+  lubridate::years(1)
 }
 
 DefaultMoniker = function(startDates){
