@@ -9,17 +9,33 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-Actuaries and other financial analysts often work with data that is associated with a specific interval of time. Moreover, we often speak of a *set* of intervals, which are closed and have equivalent duration, e.g. a fiscal quarter or a fiscal year.
+### Introduction
 
-Though generation of a sequence of dates is straightforward, a sequence of intervals is less so. Moreover, a sequence of dates is not a sequcne of intervals. When generating a sequence of intervals, the actuary has a choice of at least two options. One: generate a sequence of starting dates, with the length of the interval implied. Two: generate two sequences, so that the starting and ending dates are always available and the length of interval may be computed. In the former case, preparation of exhibits will require an additional step to store and/or recover the period. In the latter case, this is still so. In addition, it is possible for a user to alter the elements of one but not both sequences such that the resultant data is inconsistent. In either case, sequences may have data altered so that a rational set of intervals no longer holds.
+Actuaries and other financial analysts often work with data that is associated with a specific interval of time. Moreover, we often speak of a *set* of intervals, which are closed and have equivalent duration, e.g. a fiscal quarter or a fiscal year. 
 
-In either case, there is no guarantee that the sequence of dates will be monotonically increasing, non-overlapping and that the interval will have a consistent period. Further, metadata describing the character of the time interval is stored separately. The OriginPeriod class seeks to address these shortcomings. 
+Though generation of a sequence of dates is straightforward, a sequence of intervals is less so. Further, a sequence of dates is not a sequence of intervals. When generating a sequence of intervals, the actuary has a choice of at least two options. One: generate a sequence of starting dates, with the length of the interval implied. Two: generate two sequences, so that the starting and ending dates are always available and the length of interval may be computed. In the former case, preparation of exhibits will require an additional step to store and/or recover the period. In the latter case, this is still so. In addition, it is possible for a user to alter the elements of one but not both sequences such that the resultant data is inconsistent. In either case, sequences may have data altered so that a rational set of intervals no longer holds.
+
+In either case, there is no guarantee that the sequence of dates will be monotonically increasing, non-overlapping and that the interval will have a consistent period. Further, metadata describing the character of the time interval is stored separately. One is left juggling a bag of variables and ensuring that they are always consistent at any given time. The OriginPeriod class seeks to address these issues. 
 
 ### Data arising from intervals of time
 
+Let's step back for a moment. Although actuaries often present a set of intervals, in general, we are only interested in a *single* interval which has been divided into *sub-intervals*. Examine, the timeline below.
+
+![BasicTimeline](figure/TimeLine.svg)
+
+In general, we want to be clear about the *sub-interval* to which information belongs. (Note that, in general, intervals are *closed*. More on this point below.) Each of these sub intervals has a start and end.
+
 Data associated with one and only one interval of time are common in the actuarial field. Premium written or earned, claims incurred, or reported, claims settled, company expenses paid or incurred and many other variants exist. In each case, there is a numeric event which takes place at a specific instant of time. The particular instant is often irrelevant. Typically the day is all that matters and this only so that it may be assigned to a specific interval. Premium earned in a given year, claims incurred in that same year are obvious examples.
 
-It is common to collect this information in an array (or a vector, in R parlance) and assign it a label which may be easily understood. Incurred loss between accident years 2001 and 2010 would constitute a vector of ten elements. The start and end dates of the interval are implied. This may suffice, but it presumes that the time intervals are understood by the ultimate consumer of the information. If fiscal years begin on days other than January the first, the report is not clear. Moreover, within R, data regarding dates is never captured.
+It is common to collect this information in a vector and assign it a label which may be easily understood. Incurred loss between accident years 2001 and 2010 would constitute a vector of ten elements. The start and end dates of the interval are implied. This may suffice, but it presumes that the time intervals are understood by the ultimate consumer of the information. If fiscal years begin on days other than January the first, the report is not clear. Consider the problem of assigning a claim to accident year 2001 based on the accident date. The integer 2001 must be converted to a date to determine whether a specific claim
+
+```{r }
+AY <- 2001:2010
+library(lubridate)
+daysBetween <- as.integer(as.Date('2010-12-31') - as.Date('2001-01-01'))
+randomDays <- as.Date('2001-01-01') + sample.int(daysBetween, size = 1000, replace=TRUE)
+Claims <- data.frame(AccidentDate = randomDays, LossAmount = rlnorm(1000))
+```
 
 Let's return to our two solutions for storing time interval information. In the first case, we create a single vector which contains the starting points for every interval present, as follows:
 
@@ -55,17 +71,22 @@ The other approach alluded to above, wherein the period is implied by the differ
 
 ### OriginPeriod
 
-The OriginPeriod object attempts to alleviate some of these concerns. An OriginPeriod is an S4 object, which enforces a robust and sensible structure for the kind of date intervals that actuaries typically work with. Once an OriginPeriod is created, it may not be modified arbitrarily. Below, we try to alter the second element of the StartDate slot to something other than what we originally intended. We are not able to do so.
+The OriginPeriod object attempts to alleviate these concerns. An OriginPeriod is an S4 object, which enforces a robust and sensible structure for the kind of date intervals that actuaries typically work with. An OriginPeriod
 
-```{r eval=FALSE}
+Once an OriginPeriod is created, it may not be modified arbitrarily. Below, we try to alter the second element of the StartDate slot to something other than what we originally intended. We are not able to do so.
+
+```{r }
 library(OriginPeriod)
 
 op = OriginPeriod(as.Date("2001-01-01"), NumPeriods = 10)
+```
 
+```{r eval=FALSE}
 op$StartDate[2] <- as.Date("2005-07-01")
 ```
 
 Further, once created, we can't change the period.
+
 ```{r }
 op = OriginPeriod(as.Date("2001-01-01"), NumPeriods = 10)
 op$Period <- as.period(2, "years")
@@ -75,5 +96,26 @@ op$Period <- as.period(2, "years")
 
 To ease preparation of reports, there is an additional slot for a "Moniker". This is a character label which may be used in plots or other exhibits. 
 
+### grow
+
+### `lubridate` intervals
+
+`lubridate` intervals are quite practical when one needs precise measures of time. However, they don't naturally construct as vectors and 
+
+```{r }
+library(lubridate)
+
+start <- seq.Date(as.Date('2001-01-01'), by = "1 year", length.out=10)
+end <- seq.Date(as.Date('2001-12-31'), by = "1 year", length.out=10)
+myIntervals <- new_interval(start, end)
+
+#View(myIntervals)
+```
+
 ### closed and open intervals
-Note that the start and end dates are "closed" intervals. That is, anything associated with the interval uses the dates at either end inclusively. For example, it's common to think of activity as happening "before the close of business" on a particular day.
+
+Actuarial information is commonly assigned to *closed* intervals. An accident period which begins January 1, 2001 and ends December 31, 2001 will include any claim which occurs on January 1, 2001, December 31, 2001 and any day between those two dates. The interval uses the dates at either end inclusively. Contrast this with an interval which is *right open*, which would include claims which occur *before* December 31, 2001 but not claims on that date.
+
+![rightOpen](figure/RightOpen.svg)
+
+The distinction between open and closed intervals is relevant when we need to think of time as a continuous measure. This is important for policies which expire at a specific instant of time (usually midnight). However, this is not often relevant for actuaries who are accustomed to thinking of time reckoned in days, or months or some other discrete quantity. For example, it's common to think of activity as happening "before the close of business" on a particular day. The precise instant of time is not material. (It's not material in this context. In others- for example risk management and mitigation- it may be highly material. Particular times of day may be more or less hazardous than others; rush hour traffic, for example. Also, as noted, it's very important to determine whether a policy will respond.)
