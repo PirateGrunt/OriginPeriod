@@ -11,20 +11,19 @@ License: GPL-3
 Collate:
     'Validation.R'
     'Definition.R'
-    'Accessors.R'
+    'Access.R'
     'Comparison.R'
     'Concatenation.R'
     'Support.R'
-    'Constructors.R'
+    'Construction.R'
     'Conversion.R'
     'Persistence.R'
     'Properties.R'
-Depends:
-    lubridate,
 Imports:
-    XLConnect
+    lubridate,
+    mondate
 Suggests:
     knitr,
-    mondate,
-    methods
+    methods,
+    XLConnect
 VignetteBuilder: knitr
