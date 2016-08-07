@@ -3,6 +3,8 @@
 S3method(as.data.frame,OriginPeriod)
 S3method(length,OriginPeriod)
 export(Grow)
+export(Period)
+export(Type)
 export(is.OriginPeriod)
 export(rbind.OriginPeriod)
 export(show.OriginPeriod)
